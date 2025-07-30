@@ -4,12 +4,12 @@ MiniDFS is a simplified distributed file system that simulates the core architec
 
 ## 🚀 Features
 
-- 🧠 Central Metadata Master
-- 📂 Storage Nodes with file chunking and replication
-- 🧵 Multi-threaded TCP server for concurrent file operations
-- ⚡ File upload/download/list/delete
-- 🔄 Consistent hashing for distribution and fault tolerance
-- 📈 Performance benchmarking using `valgrind` and `perf`
+- Central Metadata Master
+- Storage Nodes with file chunking and replication
+- Multithreaded TCP server for concurrent file operations
+- File upload/download/list/delete
+- Consistent hashing for distribution and fault tolerance
+- Performance benchmarking using `valgrind` and `perf`
 
 ## 🧱 Architecture
 
@@ -25,7 +25,7 @@ MiniDFS is a simplified distributed file system that simulates the core architec
      -----------------------
      |         |          |
      v         v          v
- [Node1]   [Node2]    [Node3]
+    [Node1]   [Node2]    [Node3]
 
 
 ## 🛠️ Technologies
@@ -57,26 +57,6 @@ make
 ```
 
 ## Testing
-bash/tests/test_client.sh
-
-
-## ✅ 4. **Getting Started – Week-by-Week Plan**
-
-### 🔹 Week 1
-- [ ] Set up repo, directory structure, and `Makefile`
-- [ ] Implement basic TCP server (single-threaded)
-- [ ] Implement client that can send a file
-
-### 🔹 Week 2
-- [ ] Implement metadata server to manage filenames and chunk maps
-- [ ] Add multithreading to the nodes for handling concurrent clients
-
-### 🔹 Week 3
-- [ ] Add consistent hashing + replication logic
-- [ ] Implement fault detection (heartbeat or ping every X sec)
-- [ ] CLI commands: `upload`, `download`, `ls`, `delete`
-
-### 🔹 Week 4
-- [ ] Write test scripts (Bash) for upload/download
-- [ ] Add `valgrind`, benchmark upload latency
-- [ ] Polish README, add a demo (video or GIF)
+```bash
+/tests/test_client.sh
+```
