@@ -1,4 +1,6 @@
 #pragma once
+
 #include <string>
 
-void handle_command(const std::string& cmd, const std::string& file);
+int run_client(int argc, char** argv);
+
