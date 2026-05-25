@@ -27,6 +27,14 @@ pids+=("$!")
 
 sleep 1
 
+for pid in "${pids[@]}"; do
+  if ! kill -0 "$pid" >/dev/null 2>&1; then
+    echo "MiniDFS server failed to start. Logs:"
+    cat logs/master.log logs/node1.log logs/node2.log logs/node3.log
+    exit 1
+  fi
+done
+
 printf "hello MiniDFS\n%.0s" {1..10000} > data/test/input.txt
 
 bin/client upload data/test/input.txt
@@ -41,4 +49,3 @@ if bin/client download input.txt data/test/after-delete.txt >/dev/null 2>&1; the
 fi
 
 echo "MiniDFS client test passed."
-

@@ -2,7 +2,7 @@ CXX := g++
 CXXFLAGS := -std=c++11 -Wall -Wextra -pedantic -pthread
 BIN_DIR := bin
 
-.PHONY: all clean test
+.PHONY: all clean test stress debug-concurrency
 
 all: $(BIN_DIR)/master $(BIN_DIR)/node $(BIN_DIR)/client
 
@@ -21,6 +21,11 @@ $(BIN_DIR)/client: client/client.cpp client/cli.hpp common/network.hpp common/ut
 test: all
 	bash bash/tests/test_client.sh
 
+stress: all
+	bash bash/tests/test_concurrent_clients.sh
+
+debug-concurrency: all
+	scripts/debug_concurrency.sh helgrind
+
 clean:
 	rm -rf $(BIN_DIR) data
-

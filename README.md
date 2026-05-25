@@ -13,7 +13,9 @@ MiniDFS is a compact distributed file system that demonstrates the core architec
 - Parallel client upload, download, and delete operations
 - File upload/download/list/delete CLI
 - Bash integration test
+- Concurrent client stress test
 - Performance benchmarking script using Valgrind callgrind and `perf` when installed
+- Valgrind Helgrind/DRD concurrency debugging workflow
 
 ## Architecture
 
@@ -75,6 +77,7 @@ Runtime chunk data is stored under `data/nodes/`.
 
 ```bash
 make test
+make stress
 ```
 
 ## Benchmarking
@@ -85,3 +88,21 @@ Start the master and nodes first, then run:
 scripts/benchmark.sh
 ```
 
+## Concurrency Debugging
+
+MiniDFS uses mutexes to protect shared master metadata and storage-node chunk file operations while request handlers run in parallel threads.
+
+Run the concurrent stress test:
+
+```bash
+make stress
+```
+
+Run Valgrind thread debugging on Linux:
+
+```bash
+scripts/debug_concurrency.sh helgrind
+scripts/debug_concurrency.sh drd
+```
+
+See `docs/debugging.md` for the issue addressed and the log review workflow.

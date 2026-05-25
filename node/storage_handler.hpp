@@ -3,6 +3,7 @@
 #include "../common/utils.hpp"
 
 #include <fstream>
+#include <mutex>
 #include <stdexcept>
 #include <string>
 #include <sys/stat.h>
@@ -17,6 +18,7 @@ public:
     }
 
     bool store_chunk(const std::string& chunk_id, const std::vector<char>& data) {
+        std::lock_guard<std::mutex> lock(mutex_);
         std::ofstream out(path_for(chunk_id).c_str(), std::ios::binary | std::ios::trunc);
         if (!out) {
             return false;
@@ -26,6 +28,7 @@ public:
     }
 
     bool retrieve_chunk(const std::string& chunk_id, std::vector<char>& data) const {
+        std::lock_guard<std::mutex> lock(mutex_);
         std::ifstream in(path_for(chunk_id).c_str(), std::ios::binary);
         if (!in) {
             return false;
@@ -44,11 +47,13 @@ public:
     }
 
     bool delete_chunk(const std::string& chunk_id) {
+        std::lock_guard<std::mutex> lock(mutex_);
         return ::remove(path_for(chunk_id).c_str()) == 0 || errno == ENOENT;
     }
 
 private:
     std::string directory_;
+    mutable std::mutex mutex_;
 
     static void ensure_dir(const std::string& directory) {
         if (::mkdir(directory.c_str(), 0755) != 0 && errno != EEXIST) {
@@ -60,4 +65,3 @@ private:
         return directory_ + "/" + minidfs::sanitize_name(chunk_id);
     }
 };
-
